@@ -1,0 +1,77 @@
+header{
+    background-color: var(--secondary);
+}
+logo a{
+    background-color: var(--accent);
+}
+logo *{
+    color: var(--accent2);
+}
+body{
+    background-color: var(--primary);
+}
+menu a{
+    border-radius: 4pt;
+    padding: 10pt 20pt;
+    font-weight: 600;
+}
+
+header menu *{
+    margin: 2pt 18pt;
+}
+menu a:hover, menu .active{
+    background-color: var(--accent);
+    transition: .3s ease-in-out;
+    color: var(--accent2);
+}
+.hero .words *{
+    position: relative;
+    color: #ffffff;
+}
+.btn{
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+    display: flex;
+}
+.btn, .words .btn *, .words .btn{
+    background-color: var(--accent2);
+    color: var(--accent);
+}
+.flex-side{
+    background: green;
+    flex-direction: row;
+    border-radius: 4pt;
+    overflow-y: scroll;
+    user-select: none;
+    margin: 0 18pt;
+    display: flex;
+}
+.card5-a{
+    background-color: red;
+    display: flex;
+    width: 200pt;
+}
+.flex-side.scrolling {
+    cursor: grabbing;
+  }
+  
+  /* Add a class to the card container when the user is dragging */
+  .flex-side.dragging {
+    cursor: grabbing;
+  }
+  
+  /* Add a class to the card container when the user has released the drag */
+  .flex-side.dragging:active {
+    cursor: grabbing;
+  }
+  .body{
+    background-color: var(--secondary);
+  }
+
+@media screen and (min-width:425px) {
+
+}
+@media screen and (min-width:718px) {
+
+}
