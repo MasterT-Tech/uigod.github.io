@@ -201,11 +201,12 @@ header{
     padding-right: 18pt;
     flex-direction: row;
     align-items: center;
-    position: relative;
+    position: absolute;
     display: flex;
     height: 45pt;
     width: 100%;
     z-index: 3;
+    top: 0;
 }
 header menu, header nav {
     transition: max-height .2s ease-in-out;
