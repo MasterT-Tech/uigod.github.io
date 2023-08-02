@@ -212,12 +212,12 @@ header menu, header nav {
     flex-direction: column;
     position: absolute;
     overflow: hidden;
+    padding: 0 18pt;
     max-height: 0;
     display: flex;
     clear: both;
     width: 100%;
     z-index: 3;
-    padding: 0;
     margin: 0;
     top: 45pt;
 }
@@ -227,7 +227,7 @@ header nav *:first-child,
 header nav *:last-child{
     margin-top: 18pt;
 }
-header menu a, nav a{
+header menu a, header nav a{
     transition: opacity 0.2s ease-out, transform 0.2s ease-out;
     transform: translateY(-20px);
     align-items: center;
@@ -270,16 +270,22 @@ header label[for="ham"] .line:after {
 header #ham {
     display: none;
 }
-header #ham:checked ~ menu, header #ham:checked ~ nav {
+header #ham:checked ~ menu,
+header #ham:checked ~ nav {
     background-color: var(--secondary);
     max-height: calc(100vh - 45pt);
     overflow-y: scroll;
+    padding: 0 9pt;
     height: 100vh;
-    padding: 0;
 }
-header #ham:checked ~ menu a, header #ham:checked ~ nav a {
+header #ham:checked ~ menu a,
+header #ham:checked ~ nav a {
+    transition: all .2s ease-in-out;
     transform: translateY(0);
-    transition-delay: 0.1s; 
+    transition-delay: 0.1s;
+    margin-bottom: 4pt;
+    border-radius: 4pt;
+    padding: 10pt 9pt;
     opacity: 1;
 }
 header #ham:checked ~ label[for="ham"] .line {
@@ -774,7 +780,8 @@ icon{
     color: var(--accent);
   }
 @media screen and (min-width:718px) {
-    header menu, header nav {
+    header menu,
+    header nav {
         transition: max-height .2s ease-out;
         background-color: #00000000;
         flex-direction: row;
@@ -792,23 +799,26 @@ icon{
     header label[for="ham"] {
         display: none;
     }
-    header #ham:checked ~ menu, header #ham:checked ~ nav {
+    header #ham:checked ~ menu,
+    header #ham:checked ~ nav {
         max-height: calc(100vh - 45pt);
         background-color: #00000000;
         height: fit-content;
         padding: 0;
     }
-    header menu *, header nav *{
+    header menu *,
+    header nav *{
         margin: 0;
     }
     header menu *:first-child, 
     header menu *:last-child,
-    header nav *: first-child,
-    header nav *: last-child{
-        margin-top: 0;
+    header nav *:first-child,
+    header nav *:last-child{
         margin-left: 18pt;
+        margin-top: 0;
     }
-    header menu a, header nav a{
+    header menu a,
+    header nav a{
         transition: opacity 0.2s ease-out, transform 0.2s ease-out;
         transform: translateY(0);
         align-items: center;
