@@ -814,7 +814,6 @@ icon{
     header menu *:last-child,
     header nav *:first-child,
     header nav *:last-child{
-        margin-left: 18pt;
         margin-top: 0;
     }
     header menu a,
