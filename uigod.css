@@ -201,6 +201,7 @@ header{
     padding-right: 18pt;
     flex-direction: row;
     align-items: center;
+    position: relative;
     display: flex;
     height: 45pt;
     width: 100%;
