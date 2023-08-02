@@ -7,14 +7,14 @@ UI-God is originally a web-based CSS and JS and PHP, allowing a fast and simple 
 
 In the end, this is my Legacy, this is what it will take to create stunning UIs and UX designs, responsive and robust web apps, as well as desktop apps and android apps.
 
-# CSS Goals:
+## CSS Goals:
   + TEXT & MEDIA
   + ANIMATIONS
   + WEB QUIRKS
   + LAYOUTS
   + FORMS
 
-# JS Goals:
+## JS Goals:
   + CURRENT FUNCTION SHORTENING
   + COMMON CODE FUNCTIONS
   + HTML SIMPLIFICATION
@@ -24,7 +24,7 @@ In the end, this is my Legacy, this is what it will take to create stunning UIs 
   + EVENT CHANGES
   + APIS
 
-# PHP Goals:
+## PHP Goals:
   + SESSION AND COOKIES CONNECTION
   + COMMON CODE SIMPLIFICATIONS
   + SERVER CONNECTION TEMPLATE
