@@ -1,433 +1,343 @@
-iconOutlined = "material-symbols-outlined";
-darkMode = {darkmode: false};
-    io = {
-        select : function select(selector) {
-            return document.querySelector(selector);
-        },
+// UiGod Version 1.0
+function getStackTrace() {
+    var stack = new Error().stack;
+    // Remove the first line from the stack trace
+    return stack.split('\n').slice(2).join('\n');
+} 
 
-        selectNthChild:function selectNthChild(elements, n) {
-            if (n >= 1 && n <= elements.length) {
-              return elements[n - 1];
-            } else {
-              return null; // Return null if the specified index is out of range
+const printHTML = 'printHTML';
+const addBefore = 'addBefore';
+const errorMotd = 'errorMotd';
+const conStyle = 'conStyle';
+const addAfter = 'addAfter';
+const getValue = 'getValue';
+const replace = 'replace';
+const deleter = 'delete';
+const select = 'select';
+const getURL = 'getURL';
+const setURL = 'setURL';
+const patch = 'patch';
+const check = 'check';
+const print = 'print';
+const info = 'info';
+const root = 'root';
+const ajax = 'ajax';
+const post = 'post';
+const good = 'good';
+const pick = 'pick';
+const put = 'put';
+const all = 'all';
+const bad = 'bad';
+const get = 'get';
+
+io = {
+    create : function (parent, element, attributes) {
+        const parentSelector = typeof parent === 'string' ? document.querySelector(parent) : parent;
+        const newElement = document.createElement(element);
+        if (typeof attributes === 'object') {
+            for (let key in attributes) {
+                newElement.setAttribute(key, attributes[key]);
             }
-          },
-
-        selectAll : function selectAll(selector) {
-            return document.querySelectorAll(selector);
-        },
-
-        write : function write(content) {
-            return document.write(content);
-        },
-
-        log : function log(content) {
-            return console.log(content);
-        },
-
-        pout : function pout(content) {
-            return print(content);
-        },
-
-        print : function print(selector, innerHTML) {
-            var element = io.select(selector);
-            if (element) {
-                element.innerHTML += innerHTML;
-            } 
-        },
-
-        printAll : function printAll(selector, innerHTML) {
-            var elements = io.selectAll(selector);
-            if (elements) {
-                elements.forEach(function(element) {
-                    element.innerHTML += innerHTML;
-                });
-            }
-        },
-
-        replace : function replace(selector, innerHTML) {
-            var element = io.select(selector);
-            if (element) {
-                element.innerHTML = innerHTML;
-            }
-        },
-
-        replaceAll : function replaceAll(selector, innerHTML) {
-            var elements = io.selectAll(selector);
-            if (elements) {
-                elements.forEach(function(element) {
-                    element.innerHTML = "";
-                    element.innerHTML += innerHTML;
-                });
-            }
-        },
-
-        replaceStr : function replaceStr(selector, stringToReplace, newString) {
-            var element = io.select(selector);
-            if (element) {
-            element.innerHTML = element.innerHTML.replace(new RegExp(stringToReplace, 'g'), newString);
-            }
-        },
-
-        replaceAllStr : function replaceAllStr(selector, stringToReplace, newString) {
-            var elements = io.selectAll(selector);
-            if (elements.length > 0) {
-                for (var i = 0; i < elements.length; i++) {
-                    elements[i].innerHTML = elements[i].innerHTML.replace(new RegExp(stringToReplace, 'g'), newString);
-                }
-            }
-        },
-
-        replaceStrPos : function replaceStrPos(selector, stringToReplace, newString, occurrenceToReplace) {
-            var element = io.select(selector);
-            if (element) {
-            var index = 0;
-            element.innerHTML = element.innerHTML.replace(new RegExp(stringToReplace, 'g'), function(match) {
-                index++;
-                if (index === occurrenceToReplace) {
-                return newString;
-                } else {
-                return match;
-                }
-            });
-            }
-        },
-
-        del:function del(selector) {
-            var element = io.select(selector);
-            if (element) {
-                element.innerHTML = "";
-            }
-        },
-
-        delAll : function delAll(selector) {
-            var elements = io.selectAll(selector);
-            if (elements) {
-                elements.forEach(function(element) {
-                    element.innerHTML = "";
-                });
-            }
-        },
-
-        delStr : function delStr(selector, stringToRemove) {
-            var element = io.select(selector);
-            if (element) {
-            element.innerHTML = element.innerHTML.split(stringToRemove).join('');
-            }
-        },
-    
-        delAllStr : function delAllStr(selector, stringToRemove) {
-            var elements = io.selectAll(selector);
-            if (elements.length > 0) {
-            for (var i = 0; i < elements.length; i++) {
-                elements[i].innerHTML = elements[i].innerHTML.split(stringToRemove).join('');
-            }
-            }
-        },
-
-        delStrPos : function delStrPos(selector, stringToRemove, occurrenceToRemove) {
-            var element = io.select(selector);
-            if (element) {
-                var index = 0;
-                element.innerHTML = element.innerHTML.replace(new RegExp(stringToRemove, 'g'), function(match) {
-                    index++;
-                    if (index === occurrenceToRemove) {
-                    return '';
-                    } else {
-                    return match;
+        } else {
+            console.error('Attribute Error: The attributes must be written in form of an object');
+        }
+        if (parentSelector) {
+            parentSelector.appendChild(newElement);
+        } else {
+            console.error('Parent Error: The Parent element does not exist within the html.');
+        }
+    },
+    in : function (action, element, param3, param4, param5) {
+        switch(action){
+            case 'select' :
+                const sElement = document.querySelector(element);
+                if (sElement) {
+                    if (typeof param3 === 'function') {
+                        param3.call(sElement);
                     }
-                });
-            }
-        },
-
-        obj : function obj(names, values) {
-            var newObj = {};
-            for (var i = 0; i < names.length; i++) {
-            newObj[names[i]] = values[i];
-            }
-            return newObj;
-        },
-
-        createEl : function createEl(parentSelector, tagName, attributes, innerHTML) {
-            var parentElement = io.select(parentSelector);
-            if (!parentElement) {
-            parentElement = document.body;
-            }
-            var element = io.createElAtt(tagName, attributes);
-            parentElement.appendChild(element);
-            if (innerHTML) {
-            element.innerHTML = innerHTML;
-            }
-        },
-
-        createElAtt : function createElAtt(tagName, attributes) {
-            var element = document.createElement(tagName);
-            for (var attribute in attributes) {
-            element.setAttribute(attribute, attributes[attribute]);
-            }
-            return element;
-        },
-        root : function root(props) {
-            const darkmode = window.matchMedia("(prefers-color-scheme: dark)");
-            const checkbox = io.select('#dark-mode');
-            const root = document.documentElement;
-          
-            function setProps(propertyObject) {
-              Object.keys(propertyObject).forEach(function(prop) {
-                root.style.setProperty(prop, propertyObject[prop]);
-              });
-            }
-            function updateStyle() {
-                if (checkbox.checked && darkmode.matches) {
-                  setProps(props.dark);
+                    return sElement;
                 } else {
-                  setProps(props.light);
+                    io.out('bad', 'Element Error: The element does not exist within the html.');
                 }
-            }
-     
-          
-        updateStyle(); // Set initial style
-    
-            checkbox.addEventListener('change', function() {
-                updateStyle(); // Update style on checkbox toggle
-            });
-    
-            darkmode.addEventListener('change', function() {
-                updateStyle(); // Update style on darkmode change
-            });
-        },
-    
-    };
-
-    document.addEventListener("DOMContentLoaded", function(event) {
-        const myIcons = io.selectAll("icon");
-            myIcons.forEach((icon) => {
-                icon.classList.add(iconOutlined);
-        });
-        const input = io.selectAll("input");
-        input.forEach((input) => {
-            input.setAttribute('required', '');
-        });
-
-        function ElementHeight(selector, rootConstantName) {
-            const element = io.select(selector);
-            const elementHeight = element.offsetHeight;
-            document.documentElement.style.setProperty(`--${rootConstantName}`, `${elementHeight}px`);
-        };
-    });
-    document.addEventListener("DOMContentLoaded", function(event) {
-        const loader = io.select('loader');
-
-        // Function to show the page content
-        function showPage() {
-          if (loader) {
-            loader.style.display = "none";
-          }
-          io.select("body").style.display = "block";
-          io.select(".body").style.display = "block";
-        }
-        
-        // Check if the loader element exists on page load
-        const startTime = Date.now();
-        const minDelay = 3000; // Minimum delay in milliseconds
-        
-        window.addEventListener("load", function() {
-          // Calculate the elapsed time since the page started loading
-          const elapsedTime = Date.now() - startTime;
-          const remainingTime = Math.max(0, minDelay - elapsedTime);
-        
-          // Show the page after the remaining time
-          setTimeout(showPage, remainingTime);
-        });
-    });
-    document.addEventListener("DOMContentLoaded", function(event) {
-        const input = io.selectAll("input");
-        input.forEach((input) => {
-            input.setAttribute('required', '');
-        });       
-
-        const passwordInput = io.select('.password input[type="password"]');
+            break;
             
-        if(io.select('.password')) {
-            io.createEl('.password', 'icon', { id: 'viewPsw', class : iconOutlined }, 'visibility');
-            const togglePassword = io.select(".password #viewPsw");
-        
-            togglePassword.addEventListener("click", function () {
-                // Toggle the type attribute
-                const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
-                passwordInput.setAttribute("type", type);
-        
-                // Toggle the icon content
-                togglePassword.textContent = type === "password" ? "visibility" : "visibility_off";
-            })
-        };
-        
-        // Prevent form submit
-        const form = io.select("form");
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-        });
+            case 'pick':
+                const pElement = document.querySelectorAll(element);
+                if (!pElement) {
+                    io.out('bad', 'Element Error: The element does not exist within the html.');
+                }
+                else if (typeof param3 === 'number' && typeof param4 === 'function' && pElement.length > param3) {
+                    const selectedElement = pElement[param3 - 1];
+                    param4.call(selectedElement);
+                    return selectedElement;
+                }
+                else if(!param4){
+                    return pElement[param3 - 1];
+                }
+            break;
 
-        const searchInput = io.select('.search input[type="search"]');
-        io.createEl('.search', 'icon', { class: iconOutlined }, 'search');
-        const searchIcon = io.select(".search icon");
+            case 'all' :
+                const aElement = document.querySelectorAll(element);
+                if (!aElement) {
+                    io.out('bad', 'Element Error: The element does not exist within the html.');
+                }
+                else if (typeof param3 === 'function' && aElement.length > 0) {
+                    aElement.forEach(function(param2) {
+                        param3.call(param2);
+                    });
+                    return aElement;
+                }
+            break;
+
+            case "getValue" :
+                const myElement = document.querySelector(element);
+                if(!myElement){
+                    io.out('bad', 'Element Error: The element does not exist within the html.');
+                    return;
+                }
+                if(myElement.tagName.toLowerCase() === "input"){
+                    return myElement.value;
+                }else{
+                    return myElement.textContent;
+                }
+
+            case "getURL" :
+                const currentUrl = window.location.href;
             
-        searchIcon.addEventListener("click", function () {
-            const searchTerm = searchInput.value.trim();
-            if (searchTerm !== "") {
-                // Perform the search action with the search term
-                submitSearchRequest(searchTerm);
-            }
-        });
-            
-        function submitSearchRequest(searchTerm) {
-            // Replace this code with your search request handling logic
-            console.log("Search term:", searchTerm);
-            // Perform further actions, such as making an API request or updating the UI
-        }
-
-        const formDisable = io.select("form");
-
-        // Disable default form validation for all inputs
-        if (formDisable) {
-            const inputs = formDisable.querySelectorAll("input");
-            inputs.forEach(function(input) {
-                input.addEventListener("invalid", function(e) {
-                    e.preventDefault();
-                    // Custom error handling code here
-                });
-            });
-
-            formDisable.addEventListener("submit", function(e) {
-                e.preventDefault();
-                // Check if all form inputs are valid
-                if (formDisable.checkValidity()) {
-                // Custom form submission code here
-                formDisable.submit();
+                if (currentUrl.includes(element) && typeof param3 === "function") {
+                    param3.call();
                 } else {
-                // Custom error handling code here for invalid form inputs
+                    io.out("bad", "String Mismatch : Your String is not in the URL, please debug your Links and try again.");
                 }
-            });
-        }
-    
-        function initializeSelectForm() {
-            var selectForm = io.selectAll(".select");
-            var formLength = selectForm.length;
-            
-            for (let i = 0; i < formLength; i++) {
-                var selectInput = selectForm[i].querySelector("select");
-                var inputLength = selectInput.length;
-            
-                var el1 = io.createElAtt("span", { class: "select-selected" });
-                el1.innerHTML = selectInput.options[selectInput.selectedIndex].innerHTML;
-                selectForm[i].appendChild(el1);
-            
-                var el2 = io.createElAtt("span", { class: "select-items select-hide" });
-                for (let j = 1; j < inputLength; j++) {
-                        var el3 = io.createElAtt("span", { class: "select-item" });
-                        el3.innerHTML = selectInput.options[j].innerHTML;
-                        el3.addEventListener("click", function (e) {
-                        var s = this.parentNode.parentNode.querySelector("select");
-                        var sl = s.length;
-                        var h = this.parentNode.previousSibling;
-                        for (let k = 0; k < sl; k++) {
-                            if (s.options[k].innerHTML == this.innerHTML) {
-                            s.selectedIndex = k;
-                            h.innerHTML = this.innerHTML;
-                            var y = this.parentNode.querySelectorAll(".same-as-selected");
-                            var yl = y.length;
-                            for (let l = 0; l < yl; l++) {
-                                y[l].classList.remove("same-as-selected");
-                            }
-                            this.classList.add("same-as-selected");
-                            break;
+            break;
+
+            case "setURL":
+                const url = new URL(element);
+                const params = new URLSearchParams(url.search);
+
+                for (const key in param3) {
+                    params.set(key, param3[key]);
+                }
+                url.search = params.toString();
+                window.location.href = url.toString();
+
+                // Check if the file exists
+                fetch(url.toString())
+                .then(response => {
+                    if (!response.ok) {
+                        io.out('bad', 'File Error: The file does not exist within the server.');
+                    } else {
+                        window.location.href = url.toString();
+                    }
+                })
+                .catch(e => {
+                    console.error('There was a problem with the fetch operation: ' + e.message);
+                });
+            break;
+
+            case 'conStyle':
+                if (element === 'root') {
+                    io.in(ajax, get, 'scode/config.json', function(data){
+                        for (const key in data) {
+                            if (data.hasOwnProperty(key)) {
+                                document.documentElement.style.setProperty(`--${key}`, data[key]);
                             }
                         }
-                        h.click();
                     });
-                    el2.appendChild(el3);
                 }
-                selectForm[i].appendChild(el2);
-            
-                el1.addEventListener("click", function (e) {
-                    e.stopPropagation();
-                    closeAllSelect(this);
-                    this.nextSibling.classList.toggle("select-hide");
-                    this.classList.toggle("select-arrow-active");
+            break;
+
+            case 'ajax':
+            let method = element.toUpperCase();
+            let file = param3;
+            let data = param4;
+            let callback = param5;
+
+            if (typeof param4 === 'function') {
+                callback = param4;
+                data = null;
+            }
+
+            let options = {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            };
+
+            if (method !== 'GET' && method !== 'HEAD') {
+                options.body = JSON.stringify(data);
+            }
+
+            fetch(file, options)
+                .then(response => response.json())
+                .then(responseData => {
+                    if (typeof callback === 'function') {
+                        callback.call(this, responseData);
+                    }
+                })
+                .catch(error => {
+                    io.out(errorMotd, bad, 'Request Error', error.message);
+                    console.error('There was a problem with the fetch operation: ' + error.message);
                 });
-            }
-            
-            function closeAllSelect(clickedElement) {
-                var dropdownItems = io.selectAll(".select-items");
-                var selectElements = io.selectAll(".select-selected");
-                var dropdownItemCount = dropdownItems.length;
-                var selectElementCount = selectElements.length;
+            break;
 
-                var clickedElementIndex = Array.from(selectElements).indexOf(clickedElement);
-                for (let i = 0; i < selectElementCount; i++) {
-                    if (i !== clickedElementIndex) {
-                        selectElements[i].classList.remove("select-arrow-active");
-                    }
-                }
-                
-                for (let i = 0; i < dropdownItemCount; i++) {
-                    if (i !== clickedElementIndex) {
-                        dropdownItems[i].classList.add("select-hide");
-                    }
-                }
-            }
-                
-            document.addEventListener("click", closeAllSelect);
         }
-        
-        // Call the function to initialize the select form
-        initializeSelectForm();
+    },
+    out : function (action, element, param3, param4) {
+        switch(action){
+            case 'bad':
+                console.log('%c' + element, 'color: #f9caca; background-color: #d9534f79; font-weight:600; padding: 5pt 10pt; border-radius: 50pt;');
+                console.error(getStackTrace());
+            break;
 
-        // Dealing with Textarea Height
-        function calcHeight(value) {
-            // Calculate the number of line breaks
-            const numberOfLineBreaks = (value.match(/\n/g) || []).length;
-        
-            // Calculate the number of new lines starting from a long paragraph
-            const numberOfNewLines = Math.ceil(value.length / textarea.cols) - 1;
-        
-            // Calculate the new height based on line breaks and new lines
-            const newHeight = 20 + (numberOfLineBreaks + numberOfNewLines) * 16 + 12 + 2;
-        
-            return newHeight;
-          }
-        
-          const textarea = document.querySelector("form textarea");
-          textarea.addEventListener("input", function() {
-            textarea.style.height = calcHeight(textarea.value) + "pt";
-          });
-    });
+            case 'good':
+                console.log('%c' + element, 'color: #9dfcc1; background-color: #0e924179; font-weight:600; padding: 5pt 10pt; border-radius: 50pt;');
+                console.error(getStackTrace());
+            break;
 
-    document.addEventListener("DOMContentLoaded", function(event) {
-        
-        const icons = io.selectAll(".fill");
+            case 'check':
+                console.log('%c' + element, 'color: #e5e5e5; background-color: #ffc40079; font-weight:600; padding: 5pt 10pt; border-radius: 50pt;');
+                console.error(getStackTrace());
+            break;
 
-        if (icons) {
-          icons.forEach((icon) => {
-            icon.style.fontVariationSettings = "'FILL' 1, 'wght' 400, 'GRAD' 1, 'opsz' 48";
-          });
-        }
-        
-        const iconChange = document.querySelector("#checkbox + label icon"); 
-        const checkbox = document.querySelector("#checkbox");
+            case 'print':
+                const prElement = document.querySelector(element);
+                if (prElement) {
+                    prElement.textContent = param3;
+                } else {
+                    io.out('bad', 'Element Error: The element does not exist within the html.');
+                }
+            break;
 
+            case 'printHTML' :
+                const aElement = document.querySelector(element);
+                if (aElement) {
+                    aElement.innerHTML += param3;
+                } else {
+                    io.out('bad', 'Element Error: The element does not exist within the html.');
+                }
+            break;
 
-        checkbox.addEventListener("change", function() {
-            if (this.checked) {
-                iconChange.classList.add("checked");
+            case 'replace':
+                const rElement = document.querySelector(element);
+                if (rElement) {
+                    if (param4 !== undefined) {
+                        // If param4 is defined, replace the param3 string with param4
+                        rElement.innerHTML = rElement.innerHTML.replace(new RegExp(param3, 'g'), param4);
+                    } else {
+                        // If param4 is not defined, replace the entire HTML with param3
+                        rElement.innerHTML = param3;
+                    }
+                } else {
+                    io.out('bad', 'Element Error: The element does not exist within the html.');
+                }
+            break;
+
+            case 'addBefore':
+                const bElement = document.querySelector(element);
+                if (bElement) {
+                    if (bElement.innerHTML.includes(param3)) {
+                        bElement.innerHTML = bElement.innerHTML.replace(param3, param4 + param3);
+                    } else {
+                        io.out('bad', 'Search Error: The search string does not exist within the html element.');
+                    }
+                } else {
+                    io.out('bad', 'Element Error: The element does not exist within the html.');
+                }
+            break;
+
+            case 'addAfter':
+            const pElement = document.querySelector(element);
+            if (pElement) {
+                if (pElement.innerHTML.includes(param3)) {
+                    pElement.innerHTML = pElement.innerHTML.replace(param3, param3 + param4);
+                } else {
+                    io.out('bad', 'Search Error: The search string does not exist within the html element.');
+                }
             } else {
-                iconChange.classList.remove("checked");
+                io.out('bad', 'Element Error: The element does not exist within the html.');
             }
-        });
-      });
+        break;
 
-    io.createEl('head', 'link', { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"});
-    io.createEl('head', 'link', { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Poppins:display=swap"});
-    io.createEl('head', 'link', { rel: "stylesheet", type: "text/css", href: "uigod.css"});
-    io.createEl('head', 'link', { rel: "stylesheet", href: "style.css"});
-    io.createEl('head', 'script', {src: 'app.js'});
+        case 'errorMotd':
+            io.create('body', 'div', {class: 'error-motd'});
+            const createError = document.querySelector('.error-motd');
+            createError.style.display = 'none'; // Start with display none
+            createError.style.opacity = '0'; // Start with opacity 0
+            createError.style.position = 'fixed';
+            createError.style.left = '50%';
+            createError.style.transform = 'translateX(-62%)';
+            createError.style.transition = 'opacity 0.5s, top 0.5s'; // Add transition for opacity and top
+
+            switch (element) {
+                case 'bad':
+                    createError.className = 'bad-motd';
+                    createError.innerHTML = '<b> ' + param3 + '</b> <p> ' + param4 + ' </p>';
+                    break;
+                case 'check':
+                    createError.className = 'check-motd';
+                    createError.innerHTML = '<b>' + param3 + '</b> <p> ' + param4 + ' </p>';
+                    break;
+                case 'good':
+                    createError.className = 'good-motd';
+                    createError.innerHTML = '<b>' + param3 + '</b> <p> ' + param4 + ' </p>';
+                    break;
+                case 'info':
+                    createError.className = 'info-motd';
+                    createError.innerHTML = '<b>' + param3 + '</b> <p> ' + param4 + ' </p>';
+                    break;
+            }
+
+            document.body.appendChild(createError);
+
+            // Display the error message with a delay
+            setTimeout(() => {
+                createError.style.display = 'block';
+                createError.style.top = '0';
+                setTimeout(() => {
+                    createError.style.opacity = '1';
+                    createError.style.top = '2rem';
+                }, 50); // Delay for half a second
+            }, 0);
+
+            // Hide the error message after 10 seconds
+            setTimeout(() => {
+                createError.style.opacity = '0';
+                createError.style.top = '0';
+                setTimeout(() => {
+                    createError.style.display = 'none';
+                    document.body.removeChild(createError);
+                }, 500); // Wait for the transition to complete
+            }, 10500); // 10 seconds + 0.5 second delay for initial display
+            break;
+            }
+    }
+};
+
+const passwordContainers = document.querySelectorAll('.input');
+passwordContainers.forEach(container => {
+    const passwordInput = container.querySelector('input[type="password"]');
+    if (passwordInput) {
+        io.create(container, 'icon', {class: 'pswd-toggle'});
+    }
+});
+
+const pswdToggles = document.querySelectorAll('.pswd-toggle');
+pswdToggles.forEach(toggle => {
+    toggle.textContent = 'visibility';
+    toggle.addEventListener('click', () => {
+        const input = toggle.closest('.input').querySelector('input[type="password"], input[type="text"]');
+        if (input.type === 'password') {
+            input.type = 'text';
+            toggle.textContent = 'visibility_off';
+        } else {
+            input.type = 'password';
+            toggle.textContent = 'visibility';
+        }
+    });
+});
+
+
+io.in(conStyle, root, 'config.json');
+
